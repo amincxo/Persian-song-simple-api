@@ -34,7 +34,7 @@ api :
         persian: {url}/api/faallsong
 
     by artists: 
-        english: {url}/api/enartists/{artist}
-        persian: {url}/api/faartists/{artist}
+        english: {url}/api/enartists/{name}
+        persian: {url}/api/faartists/{name}
 
-        artist para = mohsenlorestani , coldplay , ramstin
+        name para = mohsenlorestani , coldplay , ramstin
