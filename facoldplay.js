@@ -1,7 +1,8 @@
 
 const facoldplay = 
     {
-        name: 'بازی سرد',
+        name: 'coldplay',
+        artist:"بازی سرد",
         genre: 'Pop',
         image: 'artists/coldplay.jpg',
         songs: [

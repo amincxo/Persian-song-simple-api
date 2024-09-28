@@ -1,6 +1,7 @@
 const faramstin = 
     {
-        name: 'رامشتاین',
+        name:"ramstin",
+        artist: 'رامشتاین',
         genre: 'Rock',
         image: 'artists/Rammstein.jpg',
         songs: [

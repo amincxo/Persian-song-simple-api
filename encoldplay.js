@@ -1,7 +1,8 @@
 
 const encoldplay = 
     {
-        name: 'Coldplay',
+        name: 'coldplay',
+        artist:"Coldplay",
         genre: 'Pop',
         image: 'artists/coldplay.jpg',
         songs: [

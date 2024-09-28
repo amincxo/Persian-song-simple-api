@@ -1,7 +1,8 @@
 
 const enmohsenlorestani = 
     {
-        name: 'Mohsen Lorestani',
+        name: 'mohsenlorestani',
+        artist:"Mohsen Lorestani",
         genre: 'Pop',
         image: 'artists/mohsenlorestani.jpg',
         songs: [

@@ -1,6 +1,7 @@
 const famohsenlorestani = 
     {
-        name: 'محسن لرستانی',
+        name: 'mohsenlorestani',
+        artist:"محسن لرستانی",
         genre: 'پاپ',
         image: 'artists/mohsenlorestani.jpg',
         songs: [

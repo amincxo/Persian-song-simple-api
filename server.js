@@ -54,21 +54,21 @@ app.get('/api/faartists/mohsenlorestani', (req, res) => {
 
 
 
-app.get('/api/enartists/encoldplay', (req, res) => {
+app.get('/api/enartists/coldplay', (req, res) => {
     res.json(encoldplay);
 });
 
-app.get('/api/faartists/facoldplay', (req, res) => {
+app.get('/api/faartists/coldplay', (req, res) => {
     res.json(facoldplay);
 });
 
 
 
-app.get('/api/enartists/enramstin', (req, res) => {
+app.get('/api/enartists/ramstin', (req, res) => {
     res.json(enramstin);
 });
 
-app.get('/api/faartists/faramstin', (req, res) => {
+app.get('/api/faartists/ramstin', (req, res) => {
     res.json(faramstin);
 });
 
