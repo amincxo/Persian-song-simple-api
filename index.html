@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>music player</title>
+    <link rel="shortcut icon" href="#">
+    <script>
+// script.js
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        const response = await fetch('http://127.0.0.1:3000/api/faartists/mohsenlorestani');
+        
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        console.log(data)
+        const artistList = document.getElementById('artist-list');
+        
+        // فرض بر این است که data.songs یک آرایه از آهنگ‌ها است
+        data.songs.forEach(song => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${song.name}`; // نام آهنگ را نمایش می‌دهد
+            artistList.appendChild(listItem);
+
+            const img = document.createElement('img');
+                img.src = song.cover; // URL تصویر
+                img.alt = `${song.name} image`; // متن جایگزین
+                img.style.width = '50px'; // تنظیم عرض تصویر
+                img.style.height = '50px'; // تنظیم ارتفاع تصویر
+                img.style.marginRight = '10px'; // فاصله بین تصویر و نام
+
+                // اضافه کردن تصویر و نام آهنگ به لیست
+                listItem.appendChild(img);
+                listItem.appendChild(document.createTextNode(song.artist));
+                artistList.appendChild(listItem);
+        });
+        
+    } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+    }
+});
+    </script>
+</head>
+<body>
+
+    <audio controls>
+        <source src="http://127.0.0.1:3000/stream/mohsenBachesosol.mp3" type="audio/mpeg">
+    </audio>
+    <ul id="artist-list" >
+زرذظطزذ
+    </ul>
+</body>
+
+
+</html>
