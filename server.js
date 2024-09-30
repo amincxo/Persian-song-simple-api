@@ -27,6 +27,10 @@ const mimeTypes = {
 //برای همه اند پوینت ها
 app.use(cors());
 
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 //میدل ور ها
 app.use('/artists', express.static(path.join(__dirname, 'artists')));
 app.use('/covers', express.static(path.join(__dirname, 'covers')));

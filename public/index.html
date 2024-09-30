@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>موزیک پلیر</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
+            padding: 20px;
+            margin: 0;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .player {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+        }
+        .track-info img {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        .controls {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .controls button {
+            background-color: #00796b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .controls button:hover {
+            background-color: #005b4f;
+        }
+        .slider {
+            width: 100%;
+            margin: 10px 0;
+        }
+        .playlist {
+            display: none;
+            margin-top: 20px;
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        .playlist.show {
+            display: block;
+            animation: slideIn 0.5s ease forwards;
+        }
+        .playlist-item {
+            cursor: pointer;
+            margin: 5px 0;
+            display: flex;
+            align-items: center;
+            padding: 5px;
+            transition: background-color 0.3s;
+        }
+        .playlist-item:hover {
+            background-color: #e0f2f1;
+        }
+        .playlist-item img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+            border-radius: 5px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 1000;
+            transition: opacity 0.5s;
+        }
+        .volume-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            z-index: 1000;
+        }
+        .volume-modal .close-button {
+            background: transparent;
+            border: none;
+            color: #00796b;
+            font-size: 16px;
+            cursor: pointer;
+            float: right;
+        }
+    </style>
+</head>
+<body>
+
+<h1>موزیک پلیر</h1>
+<div class="player">
+    <img id="cover" src="" alt="Cover" style="width: 50vw;" />
+    <div class="track-info">
+        <h2 id="trackName">اسم آهنگ</h2>
+        <h3 id="artistName">نام خواننده</h3>
+    </div>
+    <audio id="audio">
+        <source id="audioSource" src="" type="audio/mpeg">
+        مرورگر شما از پخش صوتی پشتیبانی نمی‌کند.
+    </audio>
+    <div style="display: flex; justify-content: space-between;">
+        <span class="current-time" id="currentTime">00:00</span>
+        <span class="current-time" id="totalTime">00:00</span>
+    </div>
+    <input type="range" class="slider" id="progress" value="0" step="1" min="0">
+    <div class="controls">
+        <button onclick="toggleRepeat()">تکرار یک آهنگ</button>
+        <button onclick="toggleRepeatAll()">تکرار کل لیست</button>
+        <button onclick="shuffleSongs()">شافل</button>
+        <button onclick="prevSong()">قبلی</button>
+        <button onclick="playPause()">پخش/توقف</button>
+        <button onclick="nextSong()">بعدی</button>
+        <button onclick="togglePlaylist()">لیست آهنگ‌ها</button>
+        <button onclick="showVolumeModal()">تنظیم صدا</button>
+    </div>
+    
+    <div class="volume-modal" id="volumeModal">
+        <button class="close-button" onclick="closeVolumeModal()">×</button>
+        <h3>تنظیم حجم صدا</h3>
+        <input type="range" class="slider" id="volumeControl" value="100" step="1" min="0" max="100" aria-label="Volume Control">
+    </div>
+    
+
+
+    
+</div>
+
+<div class="playlist" id="playlist">
+    <h3>لیست آهنگ‌ها</h3>
+    <div id="playlistItems"></div>
+</div>
+
+<div class="modal" id="modal"></div>
+
+<script>
+    let songs = [];
+    let currentSongIndex = 0;
+    let isShuffling = false;
+    let isRepeating = false;
+    let isRepeatingAll = false;
+    const audio = document.getElementById('audio');
+    const audioSource = document.getElementById('audioSource');
+    const currentTimeDisplay = document.getElementById('currentTime');
+    const totalTimeDisplay = document.getElementById('totalTime');
+    const progressSlider = document.getElementById('progress');
+    const volumeSlider = document.getElementById('volume');
+    const coverImage = document.getElementById('cover');
+    const trackNameDisplay = document.getElementById('trackName');
+    const artistNameDisplay = document.getElementById('artistName');
+    const playlistDiv = document.getElementById('playlist');
+    const playlistItemsDiv = document.getElementById('playlistItems');
+    const modal = document.getElementById('modal');
+    const defRoute = "http://gr.vaxgame.top:3000/";
+    const urlapi = `${defRoute}api/enallsong/`;
+    const urlstream = `${defRoute}stream/`;
+
+    async function fetchSongs() {
+        const response = await fetch(urlapi);
+        const data = await response.json();
+        songs = data.songs;
+        loadSong(currentSongIndex);
+        displayPlaylist();
+    }
+
+    function loadSong(index) {
+        audioSource.src = urlstream + songs[index].src;
+        coverImage.src = defRoute + songs[index].cover;
+        trackNameDisplay.textContent = songs[index].name;
+        artistNameDisplay.textContent =  songs[index].artist;
+        audio.load();
+    }
+
+    function playPause() {
+        if (audio.paused) {
+            audio.play().catch(error => {
+                console.error('Autoplay was prevented:', error);
+            });
+        } else {
+            audio.pause();
+        }
+    }
+
+    function prevSong() {
+        currentSongIndex = (currentSongIndex > 0) ? currentSongIndex - 1 : songs.length - 1;
+        loadSong(currentSongIndex);
+        audio.play();
+    }
+
+    function showVolumeModal() {
+        document.getElementById('volumeModal').style.display = 'block';
+    }
+
+    function closeVolumeModal() {
+        document.getElementById('volumeModal').style.display = 'none';
+    }
+
+    document.getElementById('volumeControl').oninput = function() {
+        audio.volume = this.value / 100;
+    };
+
+    function nextSong() {
+        if (isShuffling) {
+            currentSongIndex = Math.floor(Math.random() * songs.length);
+        } else {
+            currentSongIndex = (currentSongIndex < songs.length - 1) ? currentSongIndex + 1 : 0;
+        }
+        loadSong(currentSongIndex);
+        audio.play();
+    }
+
+    audio.ontimeupdate = function() {
+        const currentTime = Math.floor(audio.currentTime);
+        const minutes = String(Math.floor(currentTime / 60)).padStart(2, '0');
+        const seconds = String(currentTime % 60).padStart(2, '0');
+        currentTimeDisplay.textContent = `${minutes}:${seconds}`;
+        progressSlider.value = (audio.currentTime / audio.duration) * 100 || 0;
+    };
+
+    audio.onloadedmetadata = function() {
+        const totalDuration = Math.floor(audio.duration);
+        const totalMinutes = String(Math.floor(totalDuration / 60)).padStart(2, '0');
+        const totalSeconds = String(totalDuration % 60).padStart(2, '0');
+        totalTimeDisplay.textContent = `${totalMinutes}:${totalSeconds}`;
+    };
+
+    progressSlider.oninput = function() {
+        audio.currentTime = (progressSlider.value / 100) * audio.duration;
+    };
+
+
+    function displayPlaylist() {
+        playlistItemsDiv.innerHTML = '';
+        songs.forEach((song, index) => {
+            const songItem = document.createElement('div');
+            songItem.className = 'playlist-item';
+            songItem.onclick = () => {
+                currentSongIndex = index;
+                loadSong(currentSongIndex);
+                audio.play();
+            };
+
+            const img = document.createElement('img');
+            img.src = song.cover;
+            img.alt = song.name;
+
+            songItem.textContent = `${song.name} - ${song.artist}`;
+            songItem.prepend(img);
+            playlistItemsDiv.appendChild(songItem);
+        });
+    }
+
+    audio.onended = function() {
+        if (isRepeating) {
+            audio.currentTime = 0;
+            audio.play();
+        } else if (isRepeatingAll) {
+            currentSongIndex = (currentSongIndex < songs.length - 1) ? currentSongIndex + 1 : 0;
+            loadSong(currentSongIndex);
+            audio.play();
+        } else {
+            nextSong();
+        }
+    };
+
+    function showModal(message) {
+        modal.textContent = message;
+        modal.style.display = 'block';
+        modal.style.opacity = '1';
+        setTimeout(() => {
+            modal.style.opacity = '0';
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 500);
+        }, 5000);
+    }
+
+    function toggleRepeat() {
+        isRepeating = !isRepeating;
+        showModal(`تکرار یک آهنگ: ${isRepeating ? 'فعال' : 'غیرفعال'}`);
+    }
+
+    function shuffleSongs() {
+        isShuffling = !isShuffling;
+        showModal(`شافل: ${isShuffling ? 'فعال' : 'غیرفعال'}`);
+    }
+
+    function toggleRepeatAll() {
+        isRepeatingAll = !isRepeatingAll;
+        showModal(`تکرار کل لیست: ${isRepeatingAll ? 'فعال' : 'غیرفعال'}`);
+    }
+
+    function togglePlaylist() {
+        if (playlistDiv.style.display === 'none' || playlistDiv.style.display === '') {
+            playlistDiv.style.display = 'block';
+            playlistDiv.classList.add('show');
+        } else {
+            playlistDiv.style.display = 'none';
+            playlistDiv.classList.remove('show');
+        }
+    }
+
+    fetchSongs();
+</script>
+
+</body>
+</html>

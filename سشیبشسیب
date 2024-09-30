@@ -1,0 +1,21 @@
+    async function fetchSongs() {
+        try {
+            const response = await fetch('http://gr.vaxgame.top:3000/api/enallsong');
+            fetchData = await response.json();
+            songs = fetchData.songs
+            console.log(songs)
+            loadSong(currentSongIndex);
+        } catch (error) {
+            console.error('Error fetching songs:', error);
+        }
+    }
+
+    function loadSong(index) {
+        audioSource.src = `http://gr.vaxgame.top:3000/stream/${songs[index].src}`;
+        audio.load();
+        audio.play();
+    }
+
+        const urlapi = "http://gr.vaxgame.top:3000/api/enallsong"
+    const urlstream = "http://gr.vaxgame.top:3000/stream/"
+    let data = [];
