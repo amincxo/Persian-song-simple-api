@@ -122,6 +122,7 @@
             float: right;
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
 
@@ -142,14 +143,17 @@
     </div>
     <input type="range" class="slider" id="progress" value="0" step="1" min="0">
     <div class="controls">
-        <button onclick="toggleRepeat()">تکرار یک آهنگ</button>
-        <button onclick="toggleRepeatAll()">تکرار کل لیست</button>
-        <button onclick="shuffleSongs()">شافل</button>
-        <button onclick="prevSong()">قبلی</button>
-        <button onclick="playPause()">پخش/توقف</button>
-        <button onclick="nextSong()">بعدی</button>
-        <button onclick="togglePlaylist()">لیست آهنگ‌ها</button>
-        <button onclick="showVolumeModal()">تنظیم صدا</button>
+        <button onclick="shuffleSongs()"><i class="fa-solid fa-shuffle"></i></button>
+        <button onclick="prevSong()"><i class="fa-solid fa-backward"></i></button>
+        <button onclick="playPause()"><i class="fa-solid fa-play"></i></button>
+        <button onclick="nextSong()"><i class="fa-solid fa-forward"></i></button>
+        <button onclick="togglePlaylist()"><i class="fa-solid fa-list"></i></button>
+        <br />
+        <span class="controls" >
+            <button onclick="showVolumeModal()"><i class="fa-solid fa-volume-high"></i></button>
+            <button onclick="toggleRepeat()"><i class="fa-solid fa-repeat"></i> 1</button>
+            <button onclick="toggleRepeatAll()"><i class="fa-solid fa-repeat"> ALL</i></button>
+        </span>
     </div>
     
     <div class="volume-modal" id="volumeModal">
