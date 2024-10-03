@@ -3,11 +3,11 @@ persian song
 
 nodejs , expressjs
 
-##how to use 
-git init https://github.com/amincxo/Persian-song-simple-api.git
-cd Persian-song-simple-api
-npm install
-npm start   
+## how to use 
+    git init https://github.com/amincxo/Persian-song-simple-api.git
+    cd Persian-song-simple-api
+    npm install
+    npm start   
 
 
 ## simple reponde 
