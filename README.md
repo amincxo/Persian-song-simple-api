@@ -30,13 +30,13 @@
     {url}/stream/{apiSrc}
 
 
-## api :
+## api by all :
     allsong:
         english: {url}/api/enallsong
         persian: {url}/api/faallsong
             
 
-## by artists: 
+## api by artists: 
         english: {url}/api/enartists/{name}
         persian: {url}/api/faartists/{name}
 
