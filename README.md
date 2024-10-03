@@ -24,7 +24,7 @@ simple reponde
 
 }
 
-
+{
 stream :
     {url}/stream/{apiSrc}
 
@@ -32,7 +32,8 @@ api :
     allsong:
         english: {url}/api/enallsong
         persian: {url}/api/faallsong
-
+            
+}
     by artists: 
         english: {url}/api/enartists/{name}
         persian: {url}/api/faartists/{name}
