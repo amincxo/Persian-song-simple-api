@@ -1,7 +1,7 @@
 <h1>🌟simple Music api🌟</h1>
-## persian song
-
-## nodejs , expressjs
+persian song
+## Librarty using
+ nodejs , expressjs
 
 ## how to use 
     git init https://github.com/amincxo/Persian-song-simple-api.git
