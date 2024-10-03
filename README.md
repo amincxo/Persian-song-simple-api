@@ -24,7 +24,7 @@ npm start
 
 
 
-## stream :
+## stream music :
     {url}/stream/{apiSrc}
 
 
