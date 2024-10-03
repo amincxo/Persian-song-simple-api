@@ -3,16 +3,15 @@ persian song
 
 nodejs , expressjs
 
-how to use 
+##how to use 
 git init https://github.com/amincxo/Persian-song-simple-api.git
 cd Persian-song-simple-api
 npm install
 npm start   
 
 
-simple reponde 
-{
-
+## simple reponde 
+```
             {  
                 id:1 ,name: 'Bache Sosol',artist: 'Mohsen 
                 Lorestani',src: "mohsenBachesosol.mp3" ,
@@ -21,20 +20,21 @@ simple reponde
             {  
                 id:2 , name: 'Bache Gherti', artist: 'Mohsen Lorestani', src: "MohsenLorestaniBacheGherti.mp3" , format: 'mp3' , cover: 'covers/mohsenBachegherti.jpg' 
                 },
+```
 
-}
 
-{
-stream :
+
+## stream :
     {url}/stream/{apiSrc}
 
-api :
+
+## api :
     allsong:
         english: {url}/api/enallsong
         persian: {url}/api/faallsong
             
 }
-    by artists: 
+## by artists: 
         english: {url}/api/enartists/{name}
         persian: {url}/api/faartists/{name}
 
